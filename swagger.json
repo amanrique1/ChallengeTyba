@@ -1,0 +1,120 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "Challenge Tyba",
+		"description": "My Tyba Challenge API",
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		}
+	},
+	"host": "localhost:3000",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "User",
+			"description": "API for users in the system"
+		}
+	],
+	"schemes": ["http"],
+	"consumes": ["application/json"],
+	"produces": ["application/json"],
+	"paths": {
+		"/register": {
+			"post": {
+				"tags": ["User"],
+				"description": "Create new user in system",
+				"parameters": [
+					{
+						"name": "user",
+						"in": "body",
+						"description": "User that we want to create",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					}
+				],
+				"produces": ["application/json"],
+				"responses": {
+					"204": {
+						"description": "New user is created"
+					},
+					"403": {
+						"description": "Message that indicates wrong user or password",
+						"schema": {
+							"$ref": "#/definitions/Message"
+						}
+					},
+					"400": {
+						"description": "Message that indicates problems in the fields",
+						"schema": {
+							"$ref": "#/definitions/Message"
+						}
+					}
+				}
+			}
+		},
+		"/login": {
+			"post": {
+				"tags": ["User"],
+				"description": "Log in the user in system",
+				"parameters": [
+					{
+						"name": "user",
+						"in": "body",
+						"description": "User that we want to log in",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					}
+				],
+				"produces": ["application/json"],
+				"responses": {
+					"200": {
+						"description": "New user is created",
+						"schema": {
+							"$ref": "#/definitions/Token"
+						}
+					},
+					"400": {
+						"description": "Message that indicates problems in the fields or that user is already registered",
+						"schema": {
+							"$ref": "#/definitions/Message"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"User": {
+			"required": ["username", "password"],
+			"properties": {
+				"username": {
+					"type": "string",
+					"uniqueItems": true
+				},
+				"password": {
+					"type": "string"
+				}
+			}
+		},
+		"Token": {
+			"required": ["token"],
+			"properties": {
+				"token": {
+					"type": "string"
+				}
+			}
+		},
+		"Message": {
+			"required": ["message"],
+			"properties": {
+				"message": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
